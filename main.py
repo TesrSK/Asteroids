@@ -23,35 +23,43 @@ def main():
     
     Player.containers = (updatable, drawable)
     player = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2)
+
+    my_font = pygame.font.SysFont(pygame.font.get_default_font(), 30)
+    kills = 0
+
     dt = 0
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                print("You quit")
                 return
             
         for thing in updatable:
             thing.update(dt)
 
         screen.fill(0)
+        text_surface = my_font.render(f"Score: {str(kills)}", True, (255,255,255))
+        screen.blit(text_surface, (0,SCREEN_HEIGHT-20))
 
         for thing in drawable:
             thing.draw(screen)
 
         pygame.display.flip()
 
-
         for asteroid in asteroids:
             if asteroid.collision(player):
                 print("Game Over!")
+                print(kills)
                 pygame.quit()
                 return
             
             for shot in shots:
                 if shot.collision(asteroid):
                     shot.kill()
+                    kills += 1
                     asteroid.split()
-                    
+        
 
         dt = clock.tick(60) / 1000
 
