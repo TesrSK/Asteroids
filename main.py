@@ -38,7 +38,8 @@ def main():
         for thing in updatable:
             thing.update(dt)
 
-        screen.fill(0)
+        screen.blit(pygame.image.load("space.png"), (0,0))  # Replace space.jpg for with your image for a different background
+
         text_surface = my_font.render(f"Score: {str(kills)}", True, (255,255,255))
         screen.blit(text_surface, (0,SCREEN_HEIGHT-20))
 
@@ -50,7 +51,7 @@ def main():
         for asteroid in asteroids:
             if asteroid.collision(player):
                 print("Game Over!")
-                print(kills)
+                print(f"Final score: {kills}")
                 pygame.quit()
                 return
             
